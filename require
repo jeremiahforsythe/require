@@ -1,0 +1,44 @@
+pragma solidity 0.7.5;
+
+contract Bank {
+
+    mapping (address => uint) balance; 
+    address owner;
+
+    constructor () {
+
+        owner =msg.sender;
+        
+    }
+
+    function AddBalance (uint _tooAdd) public returns (uint) {
+            require (msg.sender == owner );
+            balance [msg.sender] += _tooAdd;
+            return balance [msg.sender];
+    }
+
+function getBalance() public view returns (uint) {
+            return balance [msg.sender];
+
+}
+
+function transfer (address recipient, uint amount ) public {
+    require (balance[msg.sender] >= amount);
+    require (msg.sender != recipient);
+
+    // check balance of msg.sender 
+
+    _transfer (msg.sender, recipient, amount );
+
+    //event logs and further checks 
+
+}
+
+function _transfer (address from, address to, uint amount )  private {
+
+    balance [from] -=amount; 
+    balance [to] +=amount;
+}
+
+}
+
